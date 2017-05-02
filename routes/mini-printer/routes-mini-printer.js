@@ -117,9 +117,11 @@ function checkPrinterType(request, response, callback) {
     break;
 
     case "USB":
+      response.sendStatus(204);
     break;
 
     case "SERIAL":
+    response.sendStatus(204);
     break;
 
     default:
