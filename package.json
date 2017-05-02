@@ -23,5 +23,9 @@
     "express": "^4.15.2",
     "lodash": "^4.17.4",
     "moment": "^2.18.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oxynum/minihub.git"
   }
 }
