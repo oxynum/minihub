@@ -14,7 +14,7 @@ let router = express.Router(),
  * Allow access to use the route.
  */
 router.use(function timeLog(req, res, next) {
-  console.log('TestRoutes: \n Time: ', Date.now())
+  console.log('Connected to mini-printer: \n Time: ', Date.now())
   next();
 })
 
@@ -24,7 +24,7 @@ router.use(function timeLog(req, res, next) {
  * @method {GET}
  */
 router.get('/info', (req, res) => {
-  let mini = new MiniPrinterNetwork('Test Printer', '192.168.1.201', 6001);
+  let mini = new MiniPrinterNetwork(req.get('PRINTER_NAME'), req.get('IP'), req.get('PORT'));
   mini.connection = true;
 
   res.send({
@@ -42,10 +42,10 @@ router.get('/info', (req, res) => {
  * @method {POST} - ticket send by the service.
  */
 router.post('/ticket', (req, res) => {
-  let mini = new MiniPrinterNetwork('Test Printer', '192.168.1.201', 6001);
-  mini.connection = true;
-  
+
+  checkPrinterType(req, res, (mini) => {
   try {
+    mini.connection = true;
     mini.printTicket(req.body, false);
     res.send({
       test: {
@@ -57,9 +57,10 @@ router.post('/ticket', (req, res) => {
   } catch (error) {
     console.log(error);
     mini.printErr(error);
-    res.code = 401;
-    res.send(error);
+    res.sendStatus(401);
   }
+  });
+
 });
 
 /**
@@ -68,7 +69,7 @@ router.post('/ticket', (req, res) => {
  * @method {POST} - ticket informations send by the service (with "pay in cash" attribute)
  */
 router.post('/ticket/cd', (req, res) => {
-  let mini = new MiniPrinterNetwork('Test Printer', '192.168.1.201', 6001);
+  let mini = new MiniPrinterNetwork(req.get('PRINTER_NAME'), req.get('IP'), req.get('PORT'));
   mini.connection = true;
   
    mini.printTicket(req.body, true);
@@ -88,7 +89,7 @@ router.post('/ticket/cd', (req, res) => {
  * @method {GET} 
  */
 router.get('/cd', (req, res) => {
-  let mini = new MiniPrinterNetwork('Test Printer', '192.168.1.201', 6001);
+  let mini = new MiniPrinterNetwork(req.get('PRINTER_NAME'), req.get('IP'), req.get('PORT'));
   mini.connection = true;
   mini.openCashDraw(() => {
       console.warn("CashDraw Openend !");
@@ -103,4 +104,34 @@ router.get('/cd', (req, res) => {
   });
 });
 
+/**
+ * PRIVATE, will check if Printer is of type: NETWORK/SERIAL/USB
+ * @param {request} request the request sent by the body-parser
+ * @param {Function} callback to execute after
+ */
+function checkPrinterType(request, response, callback) {
+    switch (request.get('PRINTER_TYPE')) {
+    case "NETWORK":
+      let mini = new MiniPrinterNetwork(request.get('PRINTER_NAME'), request.get('IP'), request.get('PORT'));
+      callback(mini);
+    break;
+
+    case "USB":
+    break;
+
+    case "SERIAL":
+    break;
+
+    default:
+      response.status(404);
+      response.send('The PRINTER_TYPE header is not well defined: please provide one of those - NETWORK/SERIAL/USB');
+      console.log('ERROR DETECTED ===> PRINTER_TYPE');
+      return;
+      break;
+  }
+}
+
 module.exports = router;
+
+//TODO:: FINISH TO IMPLEMENT USB AND SERIAL IN CHECKPRINTER.
+//TODO:: FINISH TO IMPLEMENT ROUTES.
