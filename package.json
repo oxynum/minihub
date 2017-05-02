@@ -1,0 +1,27 @@
+{
+  "name": "minihub",
+  "version": "1.0.0",
+  "description": "The hub for minimag solution.",
+  "main": "server.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "minimag",
+    "oxynum",
+    "hub",
+    "connector",
+    "npm",
+    "api",
+    "routes"
+  ],
+  "author": "Maxime Gasnier",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "escpos": "^2.4.0",
+    "express": "^4.15.2",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1"
+  }
+}
