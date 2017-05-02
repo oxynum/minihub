@@ -2,7 +2,7 @@
   "name": "minihub",
   "version": "1.0.0",
   "description": "The hub for minimag solution.",
-  "main": "server.js",
+  "main": "minihub.js",
   "scripts": {
     "test": "test"
   },
