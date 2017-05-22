@@ -44,21 +44,21 @@ router.get('/info', (req, res) => {
 router.post('/ticket', (req, res) => {
 
   checkPrinterType(req, res, (mini) => {
-  try {
-    mini.connection = true;
-    mini.printTicket(req.body, false);
-    res.send({
-      test: {
-            status: "OK",
-            code: 200
-      },
-      body: req.body
-    });
-  } catch (error) {
-    console.log(error);
-    mini.printErr(error);
-    res.sendStatus(401);
-  }
+    try {
+      mini.connection = true;
+      mini.printTicket(req.body, false);
+      res.send({
+        test: {
+              status: "OK",
+              code: 200
+        },
+        body: req.body
+      });
+    } catch (error) {
+      console.log(error);
+      mini.printErr(error);
+      res.sendStatus(401);
+    }
   });
 
 });
@@ -69,17 +69,22 @@ router.post('/ticket', (req, res) => {
  * @method {POST} - ticket informations send by the service (with "pay in cash" attribute)
  */
 router.post('/ticket/cd', (req, res) => {
-  let mini = new MiniPrinterNetwork(req.get('PRINTER_NAME'), req.get('IP'), req.get('PORT'));
-  mini.connection = true;
-  
-   mini.printTicket(req.body, true);
-
-  res.send({
-    test: {
-          status: "OK",
-          code: 200
-    },
-    body: req.body
+  checkPrinterType(req, res, (mini) => {
+    try {
+      mini.connection = true;
+      mini.printTicket(req.body, true);
+      res.send({
+        test: {
+              status: "OK",
+              code: 200
+        },
+        body: req.body
+      });
+    } catch (error) {
+      console.log(error);
+      mini.printErr(error);
+      res.sendStatus(401);
+    }
   });
 });
 
