@@ -60,11 +60,11 @@ class MiniPrinter {
         .text(ticket.shopInfo.city + " " + ticket.shopInfo.country)
         .text("Telephone: " + ticket.shopInfo.tel)
         .text("Site web: " + ticket.shopInfo.websiteUrl + "\n\n");
-      
+
       // [DUPLICATE]
       if(ticket.ticketType == "duplicate") currentPrinter.size(2, 2).text("- DUPLICATA - \n").size(1, 1);
 
-      // [ARRAY FOR PRODUCTS]   
+      // [ARRAY FOR PRODUCTS]
       currentPrinter
         .align('lt')
         .text(_.padEnd("Produit", 14) + _.pad("Qte", 14) + _.padStart('Prix U. (EUR)', 14))
@@ -74,7 +74,7 @@ class MiniPrinter {
         .text(productsItems)
         .align('ct')
         .text(middlescores);
-      
+
       // [GLOBAL DISCOUNT]
       if(ticket.globalDiscountOnTicket != 0) currentPrinter.align('lt').text('REMISE SUR TOTAL (EUR): ' + ticket.globalDiscountOnTicket + "\n");
 
@@ -100,7 +100,7 @@ class MiniPrinter {
         .text("\n\n")
         .text(stars + "\n")
         .text(ticket.messageOptions.promo + "\n" + ticket.messageOptions.thanks + "\n" + ticket.messageOptions.info);
-      
+
       // [BARCODE]
       currentPrinter
         .align('ct')
@@ -109,7 +109,7 @@ class MiniPrinter {
       // [CASHDRAW]
       if (openCD) currentPrinter.cashdraw(2).cashdraw(2);
 
-      // [CLOSE PRINTER]    
+      // [CLOSE PRINTER]
       currentPrinter.cut().close();
     });
   }
@@ -135,7 +135,7 @@ class MiniPrinter {
     let types = ["refund" , "pay" , "paygift" , "refundgift" , "duplicate"];
 
     if (types.indexOf(ticket.ticketType) < 0) return false;
-    if (!ticket , !ticket.shopInfo.address , !ticket.ticketId , !ticket.isPaidBy , !ticket.isPaidBy.cash.moneyBack) return false;
+    if (!ticket , !ticket.shopInfo.address , !ticket.ticketId , !ticket.isPaidBy) return false;
     return true;
   }
 
@@ -163,7 +163,7 @@ class MiniPrinter {
   /**
    * Will print a msg error on the printer. Provide a code to specify the error.
    * Usualy used to when printing data is not available.
-   * @param {any} code 
+   * @param {any} code
    */
   printErr(code) {
     let currentPrinter = this.printer,
