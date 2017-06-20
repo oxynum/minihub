@@ -1,38 +1,34 @@
-const nodemailer = require('nodemailer');
+let nodeMailJet = require('node-mailjet');
 
 /**
  * Class representing a MiniMail.
  * This class allows us to send preformatted mails:
  * Print Ticket, Sending reports about app, sending cashier closure...
  * Every public method is designed to be used as: sending a specific mail to someone.
+ * We use the MailJet API to make this module work.
  */
 class MiniMail {
   /**
-   * Create a MiniPrinter
-   * @param {String} Transporter represent the transporter of the mail, will initiate a new transporter for nodemailer dep.
+   * Create a MiniMail
+   * @param {Object} cred - Credentials to be sent to init the MailJet API
    */
-  constructor(Transporter) {
-    this.transporter = nodemailer.createTransport({
-      host: Transporter.host | 'smtp.gmail.com', // Default smtp
-      port: Transporter.port | 465,
-      secure: Transporter.secure | true,
-      auth: {
-        user: Transporter.user,
-        pass: Transporter.pass
-      }
-    });
+  constructor(cred) {
+    this.mailJet = nodeMailJet.connect(cred.apiKey, cred.apiSecret);
   }
 
   /**
   * Will send the mail with content passed in params.
-  * @param {Object} mailOptions - represents the mail and its content to be sent.
+  * @param {Object} emailData - represents the mail and its content to be sent.
   * @throws MiniMailException if an error occured with sending the mail.
   */
-  sendMail(mailOptions, callback) {
-    this.transporter.sendMail(mailOptions, (err, info) => {
-      if (err) throw new MiniMailException();
-      console.log('Message sent to: ', mailOptions.to);
-      if(callback) callback(info);
+  sendMail(emailData, callback) {
+    let sendEmail = mailJet.post('send');
+
+    sendEmail.request(emailData).then((data) => {
+      console.log(data);
+      callback(data);
+    }).catch((err) => {
+      throw new Error();
     });
   }
 }

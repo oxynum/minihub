@@ -35,7 +35,12 @@ router.get('/info', (req, res) => {
 * @method {POST} - ticket sent by the service
 */
 router.post('/ticket', (req, res) => {
-  res.sendStatus(200);
+  let miniMail = new MiniMailTicket();
+
+  miniMail.sendTicket(() => {
+      res.sendStatus(404);
+  });
+
 });
 // [ROUTES FOR MAIL TICKET END]
 

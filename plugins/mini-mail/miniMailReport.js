@@ -2,17 +2,15 @@ const MiniMail = require('./miniMail').MiniMail;
 
 /**
 * Class representing a MiniMail class but is specialized for sending Reports.
-* This class allows to send reports to Minimag Team.
+* This class allows to send reports to Minimag Team via the MAILJET API.
 * @extends MiniMail
 */
 class MiniMailReport extends MiniMail {
   /**
   * Create a MiniMailReport (extends with MiniMail constructor)
-  * @param {Object} Transporter - Will indicate which configuration to use for sending a mail. cf MiniMail
-  * for details
   */
-  constructor(Transporter) {
-    super(Transporter);
+  constructor(cred) {
+    super(cred);
   }
 
   /**
