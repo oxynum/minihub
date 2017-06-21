@@ -32,15 +32,18 @@ router.get('/info', (req, res) => {
 /**
 * [ROUTE] -> /ticket
 * Will send a ticket to print to a user.
+* The request must have a body.ticket and a body.receiver.
 * @method {POST} - ticket sent by the service
 */
 router.post('/ticket', (req, res) => {
-  let miniMail = new MiniMailTicket();
+  let miniMail = new MiniMailTicket({apiKey: req.confApi.apiKey, apiSecret: req.confApi.apiSecret}); // TODO:: MOVE IN ENV VAR RESSOURCES.
 
-  miniMail.sendTicket(() => {
-      res.sendStatus(404);
+  miniMail.prepareTicketMail(req.body.ticket, req.body.receiver, (mail) => {
+    miniMail.sendMail(mail, (response) => {
+      res.sendStatus(200);
+      console.log(response);
+    });
   });
-
 });
 // [ROUTES FOR MAIL TICKET END]
 

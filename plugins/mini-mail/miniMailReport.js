@@ -8,6 +8,7 @@ const MiniMail = require('./miniMail').MiniMail;
 class MiniMailReport extends MiniMail {
   /**
   * Create a MiniMailReport (extends with MiniMail constructor)
+  * @param {Object} cred - Credentials to send (will be treated by the super class)
   */
   constructor(cred) {
     super(cred);
@@ -21,7 +22,7 @@ class MiniMailReport extends MiniMail {
   * @param {Object} message - the path of usage to detect the bug (principalAction, comments, description)
   * @param {Function} callback - method to be executed at the end of this function.
   */
-  sendReportAboutApp(clientName, message, callback) {
+  prepareReportAboutAppMail(clientName, message, callback) {
 
   }
 
@@ -31,7 +32,7 @@ class MiniMailReport extends MiniMail {
   * @param {Object} message - the path of usage to detect the bug (principalAction, comments, description)
   * @param {Function} callback - method to be executed at the end of this function.
   */
-  sendAppIssue(clientName, message, callback) {
+  prepareAppIssueMail(clientName, message, callback) {
 
   }
 
@@ -40,7 +41,7 @@ class MiniMailReport extends MiniMail {
   * @param {String} message - the message and request sent by the user.
   * @param {Function} callback - method to be executed at the of this method.
   */
-  sendClientRequests(message, callback) {
+  prepareClientRequestsMail(message, callback) {
 
   }
 }

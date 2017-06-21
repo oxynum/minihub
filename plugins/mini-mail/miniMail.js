@@ -19,16 +19,16 @@ class MiniMail {
   /**
   * Will send the mail with content passed in params.
   * @param {Object} emailData - represents the mail and its content to be sent.
+  * @param {Function} callback - function to execute after the email has been sent.
   * @throws MiniMailException if an error occured with sending the mail.
   */
   sendMail(emailData, callback) {
-    let sendEmail = mailJet.post('send');
+    let sendEmail = this.mailJet.post('send');
 
     sendEmail.request(emailData).then((data) => {
-      console.log(data);
       callback(data);
     }).catch((err) => {
-      throw new Error();
+      throw new Error(); // MiniMailException should be implemented
     });
   }
 }

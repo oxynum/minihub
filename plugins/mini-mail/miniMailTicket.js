@@ -1,4 +1,5 @@
-const MiniMail = require('./miniMail').MiniMail;
+const MiniMail           = require('./miniMail').MiniMail,
+      TicketMailTemplate = require('./templates/ticketMailTemplate').TicketMailTemplate;
 
 /**
 * Class representing a MiniMail class but is specialized for sending Tickets.
@@ -8,6 +9,7 @@ const MiniMail = require('./miniMail').MiniMail;
 class MiniMailTicket extends MiniMail {
   /**
   * Create a MiniMailTicket (extends with MiniMail constructor)
+  * @param {Object} cred - Credentials to send (will be treated by the super class)
   */
   constructor(cred) {
     super(cred);
@@ -15,12 +17,19 @@ class MiniMailTicket extends MiniMail {
 
   /**
   * Will send ticket of a cashier machine by mail.
-  * @param {Object} transaction - Transaction to send by mail when confirmed.
-  * @param {Array} receivers - receivers of the mail.
-  * @param {Function} callback - Function to be called at the end.
+  * @param {Object} ticket - Transaction to send by mail when confirmed.
+  * @param {Array} receiver - receivers of the mail.
+  * @param {Function} callback - Function to be called at the end with the emailData returned.
   */
-  sendTicket(transaction, callback) {
-
+  prepareTicketMail(ticket, receiver, callback) {
+    var emailData = {
+      'FromEmail': 'maxime@oxynum.fr',
+      'FromName': 'Mol',
+      'Subject': 'Your transaction Ticket from: ',
+      'Html-part': new TicketMailTemplate().generate(ticket),
+      'Recipients': [{'Email': receiver}],
+    };
+    callback(emailData);
   }
 }
 
