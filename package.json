@@ -21,6 +21,7 @@
     "body-parser": "^1.17.1",
     "escpos": "^2.4.0",
     "express": "^4.15.2",
+    "js-to-html": "^0.9.2",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "node-mailjet": "^3.1.0"
