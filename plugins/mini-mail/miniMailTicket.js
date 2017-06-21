@@ -24,8 +24,8 @@ class MiniMailTicket extends MiniMail {
   prepareTicketMail(ticket, receiver, callback) {
     var emailData = {
       'FromEmail': 'maxime@oxynum.fr',
-      'FromName': 'Mol',
-      'Subject': 'Your transaction Ticket from: ',
+      'FromName': 'Minimag Ticket Service',
+      'Subject': 'Your transaction ticket from: ' + receiver,
       'Html-part': new TicketMailTemplate().generate(ticket),
       'Recipients': [{'Email': receiver}],
     };

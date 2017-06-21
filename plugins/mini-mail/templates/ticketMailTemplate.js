@@ -6,7 +6,7 @@ class TicketMailTemplate {
   }
 
   generate(ticket) {
-    return "<b> "+ticket+" </b>";
+    return "<b> " + ticket + " </b>";
   }
 }
 
