@@ -39,7 +39,7 @@ router.post('/ticket', (req, res) => {
   console.log(req.body);
   let miniMail = new MiniMailTicket({apiKey: req.body.confApi.apiKey, apiSecret: req.body.confApi.apiSecret}); // TODO:: MOVE IN ENV VAR RESSOURCES.
 
-  miniMail.prepareTicketMail("req.body.ticket", req.body.receiver, (mail) => {
+  miniMail.prepareTicketMail(req.body.ticket, req.body.receiver, (mail) => {
     miniMail.sendMail(mail, (response) => {
       res.sendStatus(200);
       console.log(response);
