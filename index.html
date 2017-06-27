@@ -1,32 +1,12 @@
-const HTML = require('js-to-html').html;
-
-/**
- * Class representing a TicketMailTemplate.
- * Will allow us to create as many Tickets as we want according to templates in html.
- * This class is using js-to-html to produce the work.
- */
-class TicketMailTemplate {
-  /**
-   * Create a Ticket Mail template.
-   */
-  constructor() {
-
-  }
-
-  /**
-   * Will generate a new HTML ticket to send via mail. 
-   * @param {Object} ticket - that will be analyzed to create html content.
-   */
-  generate(ticket) {
-    return `<section style="font-family: monospace; background-color:white; padding: 45px 20px; max-width:450px; display:block; flex-direction:column; width: 490px; height:731px">
-    <div class="ticket" style="position: relative; width:100%; height:100%; top:0; margin:0; display:inline-block; flex-direction:column; border:1px solid black; align-items: center;">
+<section style="font-family: monospace; background-color:white; padding: 45px 20px; max-width:450px; display:flex; flex-direction:column; width: 490px; height:731px">
+    <div class="ticket" style="position: relative; width:100%; height:100%; top:0; margin:0; display:flex; flex-direction:column; border:1px solid black; align-items: center;">
         <header>
             <h1 class="title" style="text-align:center;">Minimag Store</h1>
-            <div class="header-info" style="text-align:center; width: 100%; display:inline-block;">
-                <span id="address-store">33 avenue bertrand lagarre</span><br>
-                <span id="city-store">75012 Paris</span><br>
-                <span id="phone-store">Telephone: 04 34 23 21 12</span><br>
-                <span id="website-store">www.minimag.shop</span><br>
+            <div class="header-info" style="text-align:center;">
+                <span id="address-store">33 avenue bertrand lagarre</span></br>
+                <span id="city-store">75012 Paris</span></br>
+                <span id="phone-store">Telephone: 04 34 23 21 12</span></br>
+                <span id="website-store">www.minimag.shop</span></br>
             </div>
         </header>
         <br>
@@ -59,10 +39,10 @@ class TicketMailTemplate {
             <hr style="border:2px dotted black;">
             <br>
             <br>
-            <div class="content-ticket" style="display:inline-block;">
-                <span>REMISE:</span> <br>
-                <span>PAYE PAR:</span> <br>
-                <span>RENDU:</span> <br>
+            <div class="content-ticket" style="display:flex; flex-direction: column; justify-content:space-around;">
+                <span>REMISE:</span>
+                <span>PAYE PAR:</span>
+                <span>RENDU:</span>
             </div>
             <br>
             <br>
@@ -84,10 +64,10 @@ class TicketMailTemplate {
             <br>
             <br>
             <br>
-            <div class="client-info" style="display:inline-block;">
-                <span style="padding-left:4px;"><strong> Client:</strong> #132914548454</span> <br>
-                <span style="padding-left:4px;"><strong> N° de Ticket:</strong> 09080808090809</span> <br>
-                <span style="padding-left:4px;"><strong> Date:</strong> 12/07/2019 - 13:04:23</span> <br>
+            <div class="client-info" style="display:flex; flex-direction: column; justify-content:space-around;">
+                <span style="padding-left:4px;"><strong> Client:</strong> #132914548454</span>
+                <span style="padding-left:4px;"><strong> N° de Ticket:</strong> 09080808090809</span>
+                <span style="padding-left:4px;"><strong> Date:</strong> 12/07/2019 - 13:04:23</span>
             </div>
         </div>
         <br>
@@ -102,8 +82,4 @@ class TicketMailTemplate {
             <span>Veuillez conserver ce ticket afin de bénéficier de code de réduction</span>
         </footer>
     </div>
-</section>`;
-  }
-}
-
-module.exports.TicketMailTemplate = TicketMailTemplate;
+</section>
