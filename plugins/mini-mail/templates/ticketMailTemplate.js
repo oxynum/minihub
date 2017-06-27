@@ -18,6 +18,16 @@ class TicketMailTemplate {
    * @param {Object} ticket - that will be analyzed to create html content.
    */
   generate(ticket) {
+    let productItems = "";
+
+    ticket.bag.forEach((v) => {
+      this.productsItems += `<tr style="border-top:1px dotted black;">`
+        + `<td style="text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:204px;">`+ v.name +`</td>`
+        +  `<td style="text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:204px;">x`+ v.quantity +`</td>`
+        +  `<td style="text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:204px;">`+ v.unitPrice +`</td>`
+        + ` </tr>`;
+    }, this);
+
     return `<section style="font-family: monospace; background-color:white; padding: 45px 20px; max-width:450px; display:block; flex-direction:column; width: 490px; height:731px">
     <div class="ticket" style="position: relative; width:100%; height:100%; top:0; margin:0; display:inline-block; flex-direction:column; border:1px solid black; align-items: center;">
         <header>
@@ -39,21 +49,7 @@ class TicketMailTemplate {
                     <th>U.P. (€)</th>
                 </thead>
                 <tbody>
-                    <tr style="border-top:1px dotted black;">
-                        <td style="text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:204px;">kokojddede</td>
-                        <td style="text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:115px;">x1</td>
-                        <td style="text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:115px;">190</td>
-                    </tr>
-                    <tr style="border-top:1px dotted black;">
-                        <td style="text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:204px;">kokede</td>
-                        <td style="text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:115px;">x4</td>
-                        <td style="text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:115px;">200,9</td>
-                    </tr>
-                    <tr style="border-top:1px dotted black;">
-                        <td style="text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:204px;">kokdede</td>
-                        <td style="text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:115px;">x1</td>
-                        <td style="text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:115px;">0,90</td>
-                    </tr>
+                    `+ productItems +`
                 </tbody>
             </table>
             <hr style="border:2px dotted black;">
