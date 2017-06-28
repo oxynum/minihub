@@ -22,14 +22,18 @@ class MiniMailTicket extends MiniMail {
   * @param {Function} callback - Function to be called at the end with the emailData returned.
   */
   prepareTicketMail(ticket, receiver, callback) {
-    var emailData = {
-      'FromEmail': 'maxime@oxynum.fr',
-      'FromName': 'Minimag Ticket Service',
-      'Subject': 'Your transaction ticket from: ' + receiver,
-      'Html-part': new TicketMailTemplate().generate(ticket),
-      'Recipients': [{'Email': receiver}],
-    };
+    let ticketMail = new TicketMailTemplate();
+
+    ticketMail.generate(ticket, (htmlContent) => {
+      var emailData = {
+        'FromEmail': 'maxime@oxynum.fr',
+        'FromName': 'Minimag Ticket Service',
+        'Subject': 'Your transaction ticket from: ' + receiver,
+        'Html-part': htmlContent,
+        'Recipients': [{'Email': receiver}],
+      };
     callback(emailData);
+    });
   }
 }
 
