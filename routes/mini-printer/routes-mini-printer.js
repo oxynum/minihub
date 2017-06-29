@@ -1,9 +1,9 @@
 /**
  * Modules api
- * 
+ *
  * This file is due to execute Routes with all the current printer system implemented.
  *
- * @module ./routes/ticketsRoutes
+ * @module ./routes/routes-mini-printer
  */
 const express = require('express');
 let router = express.Router(),
@@ -16,7 +16,7 @@ let router = express.Router(),
 router.use(function timeLog(req, res, next) {
   console.log('Connected to mini-printer: \n Time: ', Date.now())
   next();
-})
+});
 
 /**
  * [ROUTE] -> /info
@@ -91,7 +91,7 @@ router.post('/ticket/cd', (req, res) => {
 /**
  * [ROUTE] -> /cd
  * Will open the cashdraw via escpos system.
- * @method {GET} 
+ * @method {GET}
  */
 router.get('/cd', (req, res) => {
   let mini = new MiniPrinterNetwork(req.get('PRINTER_NAME'), req.get('IP'), req.get('PORT'));
