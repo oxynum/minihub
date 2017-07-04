@@ -115,6 +115,14 @@ class MiniPrinter {
   }
 
   /**
+   * Will print a cashier report with the escpos system.
+   * @param {Object} cashier - cashier that is sent by the front: Apparent to a CashierFactory instance (Minimag front)
+   */
+  printCashier(cashier) {
+    
+  }
+
+  /**
    * Will open the cashdraw
    * @param {Function} callback - method to be called after open cashdraw.
    */
