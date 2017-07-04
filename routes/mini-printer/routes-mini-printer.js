@@ -60,7 +60,32 @@ router.post('/ticket', (req, res) => {
       res.sendStatus(401);
     }
   });
+});
 
+/**
+ * [ROUTE] -> /cashier
+ * Will print a cashier linked to a escpos system.
+ * @method {POST} - cashier send by the service.
+ */
+router.post('/cashier', (req, res) => {
+
+  checkPrinterType(req, res, (mini) => {
+    try {
+      mini.connection = true;
+      mini.printTicket(req.body, false);
+      res.send({
+        test: {
+              status: "OK",
+              code: 200
+        },
+        body: req.body
+      });
+    } catch (error) {
+      console.log(error);
+      mini.printErr(error);
+      res.sendStatus(401);
+    }
+  });
 });
 
 /**
@@ -112,29 +137,28 @@ router.get('/cd', (req, res) => {
 /**
  * PRIVATE, will check if Printer is of type: NETWORK/SERIAL/USB
  * @param {request} request the request sent by the body-parser
- * @param {Function} callback to execute after
+ * @param {Function} callback to execute after with the new printer created and pass to the callback as argument.
  */
 function checkPrinterType(request, response, callback) {
     switch (request.get('PRINTER_TYPE')) {
-    case "NETWORK":
-      let mini = new MiniPrinterNetwork(request.get('PRINTER_NAME'), request.get('IP'), request.get('PORT'));
-      callback(mini);
-    break;
-
-    case "USB":
-      response.sendStatus(204);
-    break;
-
-    case "SERIAL":
-    response.sendStatus(204);
-    break;
-
-    default:
-      response.status(404);
-      response.send('The PRINTER_TYPE header is not well defined: please provide one of those - NETWORK/SERIAL/USB');
-      console.log('ERROR DETECTED ===> PRINTER_TYPE');
-      return;
+      case "NETWORK":
+        let mini = new MiniPrinterNetwork(request.get('PRINTER_NAME'), request.get('IP'), request.get('PORT'));
+        callback(mini);
       break;
+
+      case "USB":
+        response.sendStatus(204);
+      break;
+
+      case "SERIAL":
+      response.sendStatus(204);
+      break;
+
+      default:
+        response.status(404);
+        response.send('The PRINTER_TYPE header is not well defined: please provide one of those - NETWORK/SERIAL/USB');
+        console.log('ERROR DETECTED ===> PRINTER_TYPE');
+        return;
   }
 }
 

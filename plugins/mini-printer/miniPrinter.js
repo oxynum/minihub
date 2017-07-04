@@ -119,7 +119,13 @@ class MiniPrinter {
    * @param {Object} cashier - cashier that is sent by the front: Apparent to a CashierFactory instance (Minimag front)
    */
   printCashier(cashier) {
-    
+    let currentPrinter = this.printer;
+
+    while (middlescores.length < 42) {
+      middlescores += "-";
+      stars += "*";
+    }
+
   }
 
   /**
