@@ -115,6 +115,119 @@ class MiniPrinter {
   }
 
   /**
+   * Will print a cashier report with the escpos system.
+   * @param {Object} cashier - cashier that is sent by the front: Apparent to a CashierFactory instance (Minimag front)
+   */
+  printCashier(cashier) {
+    let currentPrinter = this.printer,
+        middlescores = "",
+        stars = "";
+
+    while (middlescores.length < 42) {
+      middlescores += "-";
+      stars += "*";
+    }
+
+    this.device.open(() => {
+      // [HEADER OF THE CASHIER TICKET]
+      currentPrinter
+        .font('a')
+        .align('ct')
+        .size(3, 3)
+        .text("Z-CASHIER \n")
+        .size(1, 1)
+        .text(cashier.shopInfo.name)
+        .text(cashier.shopInfo.address + " " + cashier.shopInfo.city)
+        .text(cashier.shopInfo.websiteUrl + "\n")
+        .text("Opened: " + cashier.createdAt)
+        .text("Closed: " + cashier.closedAt);
+
+      // [TOTAL SUMMARY]
+      currentPrinter
+        .align('lt')
+        .text(middlescores + "\n")
+        .style('b')
+        .text(_.padEnd("TOTAL VAT:", 14) + _.pad("Total (EUR)", 14) + _.padStart('Products Quty.', 14))
+        .align('ct')
+        .style('n')
+        .text(_.padEnd(cashier.totalVAT, 14) + _.pad(cashier.totalAmount, 14) + _.padStart(cashier.numberOfSaleProducts, 14))
+        .text(middlescores + "\n")
+        .style('b')
+        .text(_.padEnd("Balance (EUR): ", 14) + _.padStart(cashier.differences, 14))
+        .text(_.padEnd("Cash closure: ", 14) + _.padStart(cashier.cashAtClosure, 14))
+        .text(middlescores + "\n");
+      
+      // [CASH PART]
+      currentPrinter
+        .align('ct')
+        .size(2, 2)
+        .text('CASH')
+        .align('lt')
+        .size(1, 1)
+        .text(_.padEnd("Transactions n.", 21) + _.padStart("Total (EUR)", 21))
+        .text(_.padEnd(cashier.totalPaidBy.cash.totalTransaction, 21) + _.padStart(cashier.totalPaidBy.cash.amount, 21))
+        .text(stars + "\n");
+      
+      // [CARD PART]
+      currentPrinter
+        .align('ct')
+        .size(2, 2)
+        .text('CARD')
+        .align('lt')
+        .size(1, 1)
+        .text(_.padEnd("Transactions n.", 21) + _.padStart("Total (EUR)", 21))
+        .text(_.padEnd(cashier.totalPaidBy.card.totalTransaction, 21) + _.padStart(cashier.totalPaidBy.card.amount, 21))
+        .text(stars + "\n");
+
+      // [CHECK PART]
+      currentPrinter
+        .align('ct')
+        .size(2, 2)
+        .text('CHECK')
+        .align('lt')
+        .size(1, 1)
+        .text(_.padEnd("Transactions n.", 21) + _.padStart("Total (EUR)", 21))
+        .text(_.padEnd(cashier.totalPaidBy.check.totalTransaction, 21) + _.padStart(cashier.totalPaidBy.check.amount, 21))
+        .text(stars + "\n");
+
+      // [GIFT CARD PART]
+      currentPrinter
+        .align('ct')
+        .size(2, 2)
+        .text('GIFT CARD')
+        .align('lt')
+        .size(1, 1)
+        .text(_.padEnd("Transactions n.", 21) + _.padStart("Total (EUR)", 21))
+        .text(_.padEnd(cashier.totalPaidBy.giftCard.totalTransaction, 21) + _.padStart(cashier.totalPaidBy.giftCard.amount, 21))
+        .text(stars + "\n");
+
+      // [PAYPAL PART]
+      currentPrinter
+        .align('ct')
+        .size(2, 2)
+        .text('PAYPAL')
+        .align('lt')
+        .size(1, 1)
+        .text(_.padEnd("Transactions n.", 21) + _.padStart("Total (EUR)", 21))
+        .text(_.padEnd(cashier.totalPaidBy.payPal.totalTransaction, 21) + _.padStart(cashier.totalPaidBy.payPal.amount, 21))
+        .text(stars + "\n");
+
+      // [AMEX CARD PART]
+      currentPrinter
+        .align('ct')
+        .size(2, 2)
+        .text('AMEX CARD')
+        .align('lt')
+        .size(1, 1)
+        .text(_.padEnd("Transactions n.", 21) + _.padStart("Total (EUR)", 21))
+        .text(_.padEnd(cashier.totalPaidBy.amexCard.totalTransaction, 21) + _.padStart(cashier.totalPaidBy.amexCard.amount, 21))
+        .text(stars + "\n");
+
+        currentPrinter.cut().close();
+    });
+  }
+
+  /**
    * Will open the cashdraw
    * @param {Function} callback - method to be called after open cashdraw.
    */
