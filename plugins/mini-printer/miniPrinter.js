@@ -119,13 +119,33 @@ class MiniPrinter {
    * @param {Object} cashier - cashier that is sent by the front: Apparent to a CashierFactory instance (Minimag front)
    */
   printCashier(cashier) {
-    let currentPrinter = this.printer;
+    let currentPrinter = this.printer,
+        middlescores = "",
+        stars = "";
 
     while (middlescores.length < 42) {
       middlescores += "-";
       stars += "*";
     }
 
+    this.device.open(() => {
+      // [HEADER OF THE CASHIER TICKET]
+      currentPrinter
+        .font('a')
+        .align('ct')
+        .size(2, 2)
+        .text("Z-CASHIER \n")
+        .size(1, 1)
+        .text("Opened: " + cashier.createdAt)
+        .text("Closed: " + cashier.closedAt);
+
+      currentPrinter
+        .align('lt')
+        .text(middlescores + "\n")
+        .text(_.padEnd("Tickets", 14) + _.pad("Total", 14) + _.padStart('Products Quty.', 14))
+
+        currentPrinter.cut().close();
+    });
   }
 
   /**

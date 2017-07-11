@@ -72,7 +72,7 @@ router.post('/cashier', (req, res) => {
   checkPrinterType(req, res, (mini) => {
     try {
       mini.connection = true;
-      mini.printTicket(req.body, false);
+      mini.printCashier(req.body);
       res.send({
         test: {
               status: "OK",
