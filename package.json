@@ -1,6 +1,6 @@
 {
   "name": "minihub",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "The hub for minimag solution.",
   "main": "minihub.js",
   "scripts": {
