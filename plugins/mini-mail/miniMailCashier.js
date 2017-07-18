@@ -21,7 +21,7 @@ class MiniMailCashier extends MiniMail {
   * @param {Array} receiver - receivers of the mail.
   * @param {Function} callback - Function to be called at the end with the emailData returned.
   */
-  prepareTicketMail(cashier, receiver, callback) {
+  prepareCashierMail(cashier, receiver, callback) {
     let cashierMail = new CashierMailTemplate();
 
     cashierMail.generate(cashier, (htmlContent) => {

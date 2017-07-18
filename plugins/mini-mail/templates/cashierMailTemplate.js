@@ -26,7 +26,7 @@ class CashierMailTemplate {
             <h3 class="title" style="text-align:center;">${cashier.shopInfo.name}</h3>
             <div class="header-info" style="text-align:center; width: 100%; display:inline-block;">
                 <span id="address-store">${cashier.shopInfo.address}</span><br>
-                <span id="city-store">${cashier.shopInfo.city} ${ticket.shopInfo.country}</span><br>
+                <span id="city-store">${cashier.shopInfo.city} ${cashier.shopInfo.country}</span><br>
                 <span id="phone-store">Telephone: ${cashier.shopInfo.tel} </span><br>
                 <span id="website-store">${cashier.shopInfo.websiteUrl}</span><br>
                 <br>

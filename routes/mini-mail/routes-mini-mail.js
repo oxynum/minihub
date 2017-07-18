@@ -8,7 +8,8 @@
 const express = require('express');
 let router         = express.Router(),
     MiniMailReport = require('../../plugins/mini-mail/miniMailReport').MiniMailReport,
-    MiniMailTicket = require('../../plugins/mini-mail/miniMailTicket').MiniMailTicket;
+    MiniMailTicket = require('../../plugins/mini-mail/miniMailTicket').MiniMailTicket,
+    MiniMailCashier = require('../../plugins/mini-mail/miniMailCashier').MiniMailCashier;
 
 /**
  * Allow access to use the route.
@@ -47,6 +48,20 @@ router.post('/ticket', (req, res) => {
   });
 });
 // [ROUTES FOR MAIL TICKET END]
+
+// [ROUTES FOR CASHIER REPORT START]
+router.post('/cashier', (req, res) => {
+  console.log(req.body);
+  let miniMail = new MiniMailCashier({apiKey: req.body.confApi.apiKey, apiSecret: req.body.confApi.apiSecret}); // TODO:: MOVE IN ENV VAR RESSOURCES.
+
+  miniMail.prepareCashierMail(req.body.cashier, req.body.receiver, (mail) => {
+    miniMail.sendMail(mail, (response) => {
+      res.sendStatus(200);
+      console.log(response);
+    });
+  });
+});
+// [ROUTES FOR CASHIER REPORT END]
 
 // [ROUTES FOR MAIL REPORT START]
 
